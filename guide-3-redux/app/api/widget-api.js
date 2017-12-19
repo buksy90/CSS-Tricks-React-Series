@@ -1,5 +1,6 @@
 import axios from 'axios';
 import store from '../store';
+import { getApiHost } from './address';
 import { getWidgetsSuccess, deleteWidgetSuccess } from '../actions/widget-actions';
 
 /**
@@ -7,7 +8,8 @@ import { getWidgetsSuccess, deleteWidgetSuccess } from '../actions/widget-action
  */
 
 export function getWidgets() {
-  return axios.get('http://localhost:3001/widgets')
+  console.log(getApiHost() + '/widgets');
+  return axios.get(getApiHost() + '/widgets')
     .then(response => {
       store.dispatch(getWidgetsSuccess(response.data));
       return response;
@@ -19,7 +21,7 @@ export function getWidgets() {
  */
 
 export function searchWidgets(query = '') {
-  return axios.get('http://localhost:3001/widgets?q='+ query)
+  return axios.get(getApiHost() + '/widgets?q='+ query)
     .then(response => {
       store.dispatch(getWidgetsSuccess(response.data));
       return response;
@@ -31,7 +33,7 @@ export function searchWidgets(query = '') {
  */
 
 export function deleteWidget(widgetId) {
-  return axios.delete('http://localhost:3001/widgets/' + widgetId)
+  return axios.delete(getApiHost() + '/widgets/' + widgetId)
     .then(response => {
       store.dispatch(deleteWidgetSuccess(widgetId));
       return response;

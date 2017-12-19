@@ -1,5 +1,6 @@
 import axios from 'axios';
 import store from '../store';
+import { getApiHost } from './address';
 import { getUsersSuccess, deleteUserSuccess, userProfileSuccess } from '../actions/user-actions';
 
 /**
@@ -7,7 +8,7 @@ import { getUsersSuccess, deleteUserSuccess, userProfileSuccess } from '../actio
  */
 
 export function getUsers() {
-  return axios.get('http://localhost:3001/users')
+  return axios.get(getApiHost() + '/users')
     .then(response => {
       store.dispatch(getUsersSuccess(response.data));
       return response;
@@ -19,7 +20,7 @@ export function getUsers() {
  */
 
 export function searchUsers(query = '') {
-  return axios.get('http://localhost:3001/users?q='+ query)
+  return axios.get(getApiHost() + '/users?q='+ query)
     .then(response => {
       store.dispatch(getUsersSuccess(response.data));
       return response;
@@ -31,7 +32,7 @@ export function searchUsers(query = '') {
  */
 
 export function deleteUser(userId) {
-  return axios.delete('http://localhost:3001/users/' + userId)
+  return axios.delete(getApiHost() + '/users/' + userId)
     .then(response => {
       store.dispatch(deleteUserSuccess(userId));
       return response;
@@ -50,7 +51,7 @@ export function getProfile(userId) {
   let profile = {};
 
   // Get the user data from our local database.
-  return axios.get('http://localhost:3001/users/' + userId)
+  return axios.get(getApiHost() + '/users/' + userId)
     .then(response => {
 
       let user = response.data;
